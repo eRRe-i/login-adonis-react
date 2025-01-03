@@ -7,8 +7,15 @@
 |
 */
 import router from '@adonisjs/core/services/router'
-router.on('/').renderInertia('home')
-router.post('/login', '#controllers.auth_controller.login')
-router.post('/logout', '#contollers.auth_controller.logout')
+
+router.get('/', async ({ inertia }) => {
+    return inertia.render('home')
+  })
+  
+router.get('/dashboard', '#controllers.users_controller.dashboard')
+router.post('/login', '#controllers.session_controller.store')
+router.post('/logout', '#controllers.session_controller.destroy')
+
+
 
 
