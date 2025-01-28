@@ -12,5 +12,7 @@ export declare class AuthController {
         firstName: string;
         lastName: string;
     }>;
-    signin(dto: AuthDto): Promise<void>;
+    signin(dto: AuthDto): Promise<{
+        access_token: string;
+    }>;
 }
