@@ -8,7 +8,7 @@ export class UserController {
 
     @UseGuards(JwtGuard)
     @Get('me')
-    getMe(@GetUser() user: User) {
+    getMe(@GetUser(['email', 'id']) user: User) {
         return user
     }
 }
