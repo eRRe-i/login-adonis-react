@@ -62,4 +62,20 @@ import { ConfigService } from "@nestjs/config";
             access_token: token,
         }
     }
+    async validateUser(dto: AuthDto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email,
+            }
+        })
+        if (!user) {
+            return null
+        }
+        const pwMatches = argon.verify(user.hash, dto.password)
+
+        if(!pwMatches) {
+            return null
+        }
+        return user;
+    }
  }
