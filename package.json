@@ -7,7 +7,8 @@
     "react-nestjs-boilerplate": "./cli.js"
   },
   "files": [
-    "templates"
+    "templates",
+    "cli.js"
   ],
   "devDependencies": {
     "@semantic-release/github": "^11.0.1",
