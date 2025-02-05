@@ -21,6 +21,7 @@ function copyTemplateFiles() {
 
   fs.copySync(templateDir, targetDir, {
     overwrite: true,
+    dereference: true,
     filter: (src) => !src.includes('node_modules')
   })
 
