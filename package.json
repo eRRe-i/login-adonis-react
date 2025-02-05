@@ -1,5 +1,8 @@
 {
   "name": "@leandrobataglia/react-nestjs-boilerplate",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/npm": "^12.0.1",
