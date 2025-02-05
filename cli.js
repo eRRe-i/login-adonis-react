@@ -14,6 +14,9 @@ function copyTemplateFiles() {
     const templateDir = templateMap[templateType];
     const targetDir = process.cwd();
 
+    console.log(templateDir)
+    console.log(targetDir)
+
     if (!templateDir) {
       console.error('❌ Template inválido. Use: backend, frontend ou full');
       process.exit(1);
