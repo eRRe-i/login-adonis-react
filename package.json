@@ -3,6 +3,13 @@
   "publishConfig": {
     "access": "public"
   },
+
+  "bin": {
+    "react-nestjs-boilerplate": "./cli.js"
+  },
+  "files": [
+    "templates"
+  ],
   "devDependencies": {
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/npm": "^12.0.1",
