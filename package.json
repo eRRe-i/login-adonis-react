@@ -1,5 +1,6 @@
 {
-  "name": "@leandrobataglia/react-nestjs-boilerplate",
+  "name": "@leandrobataglia/nestjs-boilerplate",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -11,27 +12,28 @@
     "cli.js"
   ],
   "devDependencies": {
-    "@semantic-release/github": "^11.0.1",
-    "@semantic-release/npm": "^12.0.1",
-    "semantic-release": "^24.2.1",
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
-    "husky": "^8.0.0",
-    "lint-staged": "^15.4.3",
-    "eslint": "^9.19.0",
-    "prettier": "^3.4.2",
     "@eslint/js": "^9.19.0",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/npm": "^12.0.1",
+    "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-unused-imports": "^4.1.4"
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.4.2",
+    "semantic-release": "^24.2.1"
   },
   "dependencies": {
     "fs-extra": "^11.3.0"
   },
   "scripts": {
     "lint": "eslint .",
-    "fix": "eslint . --fix"
+    "fix": "eslint . --fix",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{js,ts}": [
