@@ -15,6 +15,9 @@ const __dirname = dirname(__filename)
 const compat = new FlatCompat()
 
 export default [
+  {
+    ignores: ['templates/**'],
+  },
   js.configs.recommended,
   {
     // Configuração para arquivos TypeScript
