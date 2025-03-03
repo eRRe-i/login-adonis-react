@@ -1,6 +1,7 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import { Request, Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { AuthDto, RegisterDto } from './dto'
+import { AuthGuard } from '@nestjs/passport'
 
 @Controller('auth')
 export class AuthController {
@@ -11,9 +12,11 @@ export class AuthController {
     return this.authService.signup(dto)
   }
 
-  @HttpCode(HttpStatus.OK)
-  @Post('signin')
-  signin(@Body() dto: AuthDto) {
-    return this.authService.signin(dto)
+  @UseGuards(AuthGuard('local'))
+  @Post('login-jwt')
+  async loginJwt(@Request() req, @Body() body) {
+    console.log('Corpo da requisição:', body)
+    console.log('Usuário autenticado:', req.user)
+    return this.authService.signToken(req.user.id, req.user.email)
   }
 }
