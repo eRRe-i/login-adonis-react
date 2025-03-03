@@ -19,4 +19,9 @@ export class AuthController {
     console.log('Usuário autenticado:', req.user)
     return this.authService.signToken(req.user.id, req.user.email)
   }
+  @UseGuards(AuthGuard('local'))
+  @Post('login-session')
+  async loginSession(@Request() req) {
+    return { message: 'Login realizado com sucesso', user: req.user.email }
+  }
 }
