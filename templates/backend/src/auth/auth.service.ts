@@ -35,35 +35,33 @@ export class AuthService {
       throw error
     }
   }
-  async signin(dto: AuthDto) {
+  async validateUser(dto: AuthDto) {
+    // Buscar o usuário pelo email
+    console.log(dto)
     const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
+      where: { email: dto.email },
     })
+
+    // Verificar se o usuário existe
     if (!user) {
-      throw new ForbiddenException('Credenciais Incorretas')
+      throw new ForbiddenException('Credenciais incorretas')
     }
 
+    // Verificar se a senha está correta
     const pwMatches = await argon.verify(user.hash, dto.password)
     if (!pwMatches) {
-      throw new ForbiddenException('Credenciais Incorretas')
+      throw new ForbiddenException('Credenciais incorretas')
     }
-    return this.signToken(user.id, user.email)
-  }
-  async signToken(userId: number, email): Promise<{ access_token: string }> {
-    const payload = {
-      sub: userId,
-      email,
-    }
-    const secret = this.config.get('JWT_SECRET')
-    const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
-      secret: secret,
-    })
 
-    return {
-      access_token: token,
-    }
+    return user
+  }
+
+  async signToken(userId: number, email: string): Promise<{ access_token: string }> {
+    const payload = { sub: userId, email }
+    const secret = this.config.get('JWT_SECRET')
+
+    const token = await this.jwt.signAsync(payload)
+
+    return { access_token: token }
   }
 }
