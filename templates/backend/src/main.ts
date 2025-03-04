@@ -39,7 +39,13 @@ async function bootstrap() {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
-  app.use(passport.initialize())
+  app.enableCors({
+    origin: 'http://localhost:5173', // Permite apenas o frontend em localhost:5173
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+    credentials: true, // Permite cookies e autenticação
+  })
+
   app.use(passport.session())
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
 
@@ -48,6 +54,8 @@ async function bootstrap() {
     console.log('Corpo da requisição:', req.body)
     next()
   })
+
+  app.use(passport.initialize())
   await app.listen(process.env.PORT ?? 3000)
 }
 bootstrap()
