@@ -56,12 +56,29 @@ export class AuthService {
     return user
   }
 
-  async signToken(userId: number, email: string): Promise<{ access_token: string }> {
+  async validateUserById(sub: number) {
+    const user = this.prisma.user.findUnique({
+      where: { id: sub },
+    })
+    if (!user) {
+      throw new ForbiddenException('Usuário não encontrado')
+    }
+    return user
+  }
+
+  async signTokens(userId: number, email: string) {
     const payload = { sub: userId, email }
-    const secret = this.config.get('JWT_SECRET')
 
-    const token = await this.jwt.signAsync(payload)
+    const accessToken = await this.jwt.signAsync(payload, {
+      expiresIn: '15m',
+      secret: this.config.get('JWT_SECRET'),
+    })
 
-    return { access_token: token }
+    const refreshToken = await this.jwt.signAsync(payload, {
+      expiresIn: '7d',
+      secret: this.config.get('JWT_REFRESH_SECRET'),
+    })
+
+    return { accessToken, refreshToken }
   }
 }
