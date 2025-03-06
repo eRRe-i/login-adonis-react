@@ -54,11 +54,10 @@ export class JwtGuard extends AuthGuard('jwt') {
           response.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
             secure: this.configService.get('NODE_ENV') === 'production',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           })
         }
 
-        // Define o usuário autenticado no request
         request.user = user
 
         return true

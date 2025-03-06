@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
+import useAuth from '../../hooks/useAuth.hook'
 
 export default function SignIn() {
   const [jwtEmail, setJwtEmail] = useState('')
@@ -10,9 +11,8 @@ export default function SignIn() {
   const [sessionPassword, setSessionPassword] = useState('')
   const [disabled, setDisabled] = useState(false)
   const navigate = useNavigate()
+  const { setAuthHeaders } = useAuth()
 
-  // console.log(import.meta.env)
-  // Função para login JWT
   function loginJWT(event) {
     event.preventDefault()
     setDisabled(true)
@@ -21,12 +21,14 @@ export default function SignIn() {
       .post(`${import.meta.env.VITE_API_URL}/auth/login-jwt`, user)
       .then((res) => {
         console.log('Login JWT realizado:', res.data)
+        const { accessToken, refreshToken } = res.data
+        setAuthHeaders({ accessToken: accessToken, refreshToken: refreshToken })
         alert('Login JWT realizado com sucesso!')
         setDisabled(false)
         navigate('/home')
       })
       .catch((err) => {
-        console.error('Erro no login JWT:', err.response?.data)
+        console.error('Erro no login JWT:', err)
         alert(err.response?.data || 'Erro ao realizar login JWT')
         setDisabled(false)
       })
@@ -47,7 +49,7 @@ export default function SignIn() {
       })
       .catch((err) => {
         console.error('Erro no login por sessão:', err.response?.data)
-        alert(err.response?.data || 'Erro ao realizar login por sessão')
+        alert('Erro ao realizar login por sessão')
         setDisabled(false)
       })
   }

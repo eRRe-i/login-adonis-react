@@ -6,6 +6,7 @@ import { RedisStore } from 'connect-redis'
 import { createClient } from 'redis'
 import { ValidationPipe } from '@nestjs/common'
 import * as bodyParser from 'body-parser'
+import * as cookieParser from 'cookie-parser'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -38,6 +39,7 @@ async function bootstrap() {
   )
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(cookieParser())
 
   app.enableCors({
     origin: 'http://localhost:5173', // Permite apenas o frontend em localhost:5173
@@ -52,6 +54,8 @@ async function bootstrap() {
   app.use((req, res, next) => {
     console.log('Requisição recebida:', req.method, req.url)
     console.log('Corpo da requisição:', req.body)
+    console.log('cookies:', req.cookies)
+    console.log('headers:', req.headers.authorization)
     next()
   })
 

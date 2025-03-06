@@ -1,53 +1,81 @@
-import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
+import axios from 'axios'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 export default function SignUp() {
-  const [email, setEmail] = useState();
-  const [name, setName] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-  const [disabled, setDisabled] = useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState()
+  const [name, setName] = useState()
+  const [password, setPassword] = useState()
+  const [confirmPassword, setConfirmPassword] = useState()
+  const [disabled, setDisabled] = useState(false)
+  const navigate = useNavigate()
 
   function register(event) {
-    event.preventDefault();
-    if(password !== confirmPassword) {
-      return alert("Senhas não conferem!");
+    event.preventDefault()
+    if (password !== confirmPassword) {
+      return alert('Senhas não conferem!')
     }
 
-    setDisabled(true);
-    const dataSingUp = {email: email, name: name, password: password}
-    axios.post(`${process.env.REACT_APP_API_URL}/signUp`, dataSingUp) //rota no .env
+    setDisabled(true)
+    const dataSingUp = { email: email, name: name, password: password }
+    axios
+      .post(`${import.meta.url.VITE_API_URL}/signUp`, dataSingUp) //rota no .env
       .then((res) => {
-        setDisabled(false);
-        navigate("/");
+        setDisabled(false)
+        navigate('/')
       })
       .catch((err) => {
-        console.log(err.response.data);
-        setDisabled(false);
+        console.log(err.response.data)
+        setDisabled(false)
       })
   }
 
-  return(
+  return (
     <SingUpContainer>
       <form onSubmit={register}>
-        <input placeholder="Nome" type="text" value={name} onChange={e => setName(e.target.value)} disabled={disabled} required />
-        <input placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value)} disabled={disabled} required/>
-        <input placeholder="Senha" minLength={6} type="password" value={password} autocomplete="new-password" onChange={e => setPassword(e.target.value)} disabled={disabled} required />
-        <input placeholder="Confirme a senha" type="password" value={confirmPassword} autocomplete="new-password"  onChange={e => setConfirmPassword(e.target.value)} disabled={disabled} required />
+        <input
+          placeholder="Nome"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          disabled={disabled}
+          required
+        />
+        <input
+          placeholder="E-mail"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={disabled}
+          required
+        />
+        <input
+          placeholder="Senha"
+          minLength={6}
+          type="password"
+          value={password}
+          autocomplete="new-password"
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={disabled}
+          required
+        />
+        <input
+          placeholder="Confirme a senha"
+          type="password"
+          value={confirmPassword}
+          autocomplete="new-password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          disabled={disabled}
+          required
+        />
         <button type="submit">Cadastrar</button>
       </form>
 
-      <Login to="/">
-        Já tem uma conta? Entre agora!
-      </Login>
+      <Login to="/">Já tem uma conta? Entre agora!</Login>
     </SingUpContainer>
   )
 }
-
 
 const SingUpContainer = styled.div`
   display: flex;
@@ -107,9 +135,8 @@ const SingUpContainer = styled.div`
   a:hover {
     text-decoration: underline;
   }
-`;
+`
 
 const Login = styled(Link)`
   margin-top: 15px;
 `
- 
