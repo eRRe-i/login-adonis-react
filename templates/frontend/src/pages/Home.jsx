@@ -40,7 +40,7 @@ const Home = () => {
     }
 
     checkLogin()
-  })
+  }, [navigate, getAuthHeaders]) // Array de dependências
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken') // Remove o token

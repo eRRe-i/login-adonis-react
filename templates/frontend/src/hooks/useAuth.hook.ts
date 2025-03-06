@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const useAuth = () => {
@@ -10,8 +11,8 @@ const useAuth = () => {
     }
   }
 
-  // Função para gerar os headers de autenticação
-  const getAuthHeaders = () => {
+  // Função para gerar os headers de autenticação (memoizada)
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('accessToken') // Recupera o token do localStorage
 
     if (!token) {
@@ -22,7 +23,7 @@ const useAuth = () => {
     return {
       Authorization: `Bearer ${token}`, // Cabeçalho de autenticação
     }
-  }
+  }, [navigate]) // Dependência: navigate
 
   return { setAuthHeaders, getAuthHeaders } // Retorna as funções
 }
